@@ -62,38 +62,38 @@ public class NestedScrollLinearLayout extends LinearLayout implements NestedScro
         return true;
     }
 
-    public void fling(int velocityY) {
-        mScroller.fling(0, getScrollY(), 0, velocityY, 0, 0, 0, mTopViewHeight);
-        invalidate();
-    }
-
-    @Override
-    public void scrollTo(int x, int y) {
-        if (y < 0) {
-            y = 0;
+        public void fling(int velocityY) {
+            mScroller.fling(0, getScrollY(), 0, velocityY, 0, 0, 0, mTopViewHeight);
+            invalidate();
         }
-        if (y > mTopViewHeight) {
-            y = mTopViewHeight;
+
+        @Override
+        public void scrollTo(int x, int y) {
+            if (y < 0) {
+                y = 0;
+            }
+            if (y > mTopViewHeight) {
+                y = mTopViewHeight;
+            }
+            if (y != getScrollY()) {
+                super.scrollTo(x, y);
+            }
         }
-        if (y != getScrollY()) {
-            super.scrollTo(x, y);
+
+        @Override
+        public void computeScroll() {
+
+            //先判断mScroller滚动是否完成
+            if (mScroller.computeScrollOffset()) {
+
+                //这里调用View的scrollTo()完成实际的滚动
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+
+                //必须调用该方法，否则不一定能看到滚动效果
+                postInvalidate();
+            }
+            super.computeScroll();
         }
-    }
-
-    @Override
-    public void computeScroll() {
-
-        //先判断mScroller滚动是否完成
-        if (mScroller.computeScrollOffset()) {
-
-            //这里调用View的scrollTo()完成实际的滚动
-            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-
-            //必须调用该方法，否则不一定能看到滚动效果
-            postInvalidate();
-        }
-        super.computeScroll();
-    }
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
