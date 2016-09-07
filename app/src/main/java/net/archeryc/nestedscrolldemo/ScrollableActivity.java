@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,10 +29,12 @@ public class ScrollableActivity extends AppCompatActivity {
     private RecyclerView rvHot;
     private RecyclerView rvTopic;
     private TextView tvHeader;
+    private TextView tvBlock;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MyPagerAdapter myPagerAdapter;
     private LinearLayout llHeader;
+    private LinearLayout llHeaderContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,14 @@ public class ScrollableActivity extends AppCompatActivity {
         slRoot = (ScrollableLayout) findViewById(R.id.sl_root);
         rvHot = (RecyclerView) findViewById(R.id.rv_hot);
         tvHeader = (TextView) findViewById(R.id.tv_header);
+        tvBlock = (TextView) findViewById(R.id.tv_block);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         rvTopic = (RecyclerView) findViewById(R.id.rv_topic);
         llHeader = (LinearLayout) findViewById(R.id.ll_header);
+        llHeaderContainer = (LinearLayout) findViewById(R.id.ll_header_container);
 
+        llHeaderContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getTotalHeight()));
 //        rvHot.setVisibility(View.GONE);
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(myPagerAdapter);
@@ -71,6 +77,9 @@ public class ScrollableActivity extends AppCompatActivity {
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        rvHot.setVisibility(View.GONE);
+                        rvTopic.setVisibility(View.GONE);
+                        llHeaderContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getTotalHeight()));
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 500);
@@ -83,8 +92,26 @@ public class ScrollableActivity extends AppCompatActivity {
         rvTopic.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         rvTopic.setAdapter(new ImageAdapter(this));
 
-
     }
 
+    private int getTotalHeight(){
+        int mHeight=0;
+        if (tvHeader.getVisibility()==View.VISIBLE){
+            mHeight+=tvHeader.getLayoutParams().height;
+        }
+        if (tvBlock.getVisibility()==View.VISIBLE){
+            mHeight+=tvBlock.getLayoutParams().height;
+        }
+        if (rvHot.getVisibility()==View.VISIBLE){
+            mHeight+=rvHot.getLayoutParams().height;
+        }
+        if (rvTopic.getVisibility()==View.VISIBLE){
+            mHeight+=rvTopic.getLayoutParams().height;
+        }
+        if (tabLayout.getVisibility()==View.VISIBLE){
+            mHeight+=tabLayout.getLayoutParams().height;
+        }
+        return mHeight;
+    }
 
 }

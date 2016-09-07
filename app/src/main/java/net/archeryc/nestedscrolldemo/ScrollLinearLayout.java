@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
  * @author 杨晨 on 2016/9/7 17:20
  * @e-mail 247067345@qq.com
  * @see [相关类/方法](可选)
- * @deprecated (可选)
  */
 
 public class ScrollLinearLayout extends LinearLayout {

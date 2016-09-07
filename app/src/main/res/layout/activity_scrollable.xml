@@ -13,8 +13,9 @@
         app:scrollable_autoMaxScrollViewId="@+id/ll_header">
 
         <LinearLayout
+            android:id="@+id/ll_header_container"
             android:layout_width="match_parent"
-            android:layout_height="650dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -34,6 +35,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/tv_block"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:background="#2d78a1"
@@ -52,7 +54,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_topic"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="350dp"
                     android:background="#81c8e1"
                     />
             </LinearLayout>
